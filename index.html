@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feliz Día Mamá 💖</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body, html {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffe4ec, #fff0f5, #f8e8ff);
+      background-size: 200% 200%;
+      animation: gradientBG 15s ease infinite;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    #bienvenida {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .contenido {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(214, 51, 132, 0.2);
+      max-width: 500px;
+      border: 2px solid rgba(255, 192, 203, 0.3);
+      backdrop-filter: blur(8px);
+      transform: translateY(0);
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .contenido h1 {
+      font-size: 2.8em;
+      color: #d63384;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      animation: fadeIn 1.5s ease, glow 3s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff69b4, 0 0 20px #ff69b4; }
+      to { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ff69b4, 0 0 40px #ff69b4; }
+    }
+    
+    .contenido p {
+      font-size: 1.2em;
+      color: #555;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      animation: fadeIn 2s ease;
+    }
+    
+    button {
+      background: linear-gradient(45deg, #d63384, #e668a7);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(214, 51, 132, 0.3);
+      animation: fadeIn 2.5s ease, pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    button:hover {
+      background: linear-gradient(45deg, #b0256a, #d63384);
+      box-shadow: 0 6px 16px rgba(214, 51, 132, 0.5);
+      transform: translateY(-3px);
+    }
+    
+    /* Animación de entrada */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Fondo animado */
+    .fondo-animado {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    /* Elementos animados */
+    .corazon {
+      position: absolute;
+      background-color: #ff69b4;
+      display: inline-block;
+      height: 30px;
+      width: 30px;
+      transform: rotate(45deg);
+      animation: flotar 10s linear infinite;
+    }
+    
+    .corazon:before,
+    .corazon:after {
+      content: "";
+      background-color: #ff69b4;
+      border-radius: 50%;
+      height: 30px;
+      position: absolute;
+      width: 30px;
+    }
+    
+    .corazon:before {
+      top: -15px;
+      left: 0;
+    }
+    
+    .corazon:after {
+      left: -15px;
+      top: 0;
+    }
+    
+    .flor {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      animation: flotar 15s linear infinite;
+    }
+    
+    .emoji-flotante {
+      position: absolute;
+      font-size: 24px;
+      animation: flotar 8s linear infinite;
+      z-index: 5;
+    }
+    
+    @keyframes flotar {
+      0% {
+        transform: translateY(105vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-5vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    .destello {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 10px 2px #ff69b4;
+      animation: brillar 2s ease-in-out infinite;
+    }
+    
+    @keyframes brillar {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(0.1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fondo animado para flores y corazones -->
+  <div class="fondo-animado" id="fondo-animado">
+    <!-- Se crearán con JS -->
+  </div>
+
+  <!-- Sección de Bienvenida -->
+  <section id="bienvenida">
+    <div class="contenido">
+      <h1>Feliz Día de la Madre 💖</h1>
+      <p>Gracias por ser mi guía, mi apoyo y mi mayor inspiración. <br> Te amo con todo mi corazón ❤️</p>
+      <button onclick="mostrarGaleria()">Entrar</button>
+    </div>
+  </section>
+  </script>
+  <!-- Música de fondo -->
+  <audio id="musica" src="musica.mp3" autoplay loop></audio>
+
+  <script>
+    // Función para mostrar la galería
+    function mostrarGaleria() {
+      alert('¡Te quiero mucho mamá!');
+      // Aquí puedes redirigir a una página de galería o mostrar un modal
+     window.location.href = "Galería.html"; // Cambia esto a la URL de tu galería
+    }
+
+    // Obtener el elemento del fondo animado
+    const fondo = document.getElementById('fondo-animado');
+    
+    // Lista de emojis
+    const emojis = ['💖', '🌸', '💐', '❤️', '🌷', '💕', '🌹', '💝', '💞', '🌺', '👩‍👧', '👩‍👦'];
+    
+    // Crear corazón
+    function crearCorazon() {
+      const corazon = document.createElement('div');
+      corazon.className = 'corazon';
+      
+      // Posición aleatoria
+      const posX = Math.random() * 100;
+      const size = Math.random() * 20 + 10;
+      const duration = Math.random() * 10 + 8;
+      
+      // Asignar estilos
+      corazon.style.left = posX + 'vw';
+      corazon.style.width = size + 'px';
+      corazon.style.height = size + 'px';
+      corazon.style.animationDuration = duration + 's';
+      
+      // Colores aleatorios
+      const colors = ['#ff69b4', '#ff8da1', '#ffb6c1', '#ffc0cb', '#db7093'];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      corazon.style.backgroundColor = color;
+      
+      fondo.appendChild(corazon);
+      
+      // Eliminar después de la animación
+      setTimeout(() => {
+        corazon.remove();
+      }, duration * 1000);
+    }
+    
+    // Crear flor
+    function crearFlor() {
+      // Crear un elemento para la flor (simplificado)
+      const flor = document.createElement('div');
+      flor.className = 'flor';
+      
+      // Crear HTML interno para la flor
+      flor.innerHTML = `
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <circle cx="50" cy="50" r="15" fill="#FFCC00" />
+          <circle cx="50" cy="20" r="15" fill="#FFB6C1" />
+          <circle cx="80" cy="50" r="15" fill="#FFC0CB" />
+          <circle cx="50" cy="80" r="15" fill="#FF85A2" />
+          <circle cx="20" cy="50" r="15" fill="#FF69B4" />
+          <circle cx="30" cy="30" r="10" fill="#FFA6C9" />
+          <circle cx="70" cy="30" r="10" fill="#FFB6C1" />
+          <circle cx="70" cy="70" r="10" fill="#FFC0CB" />
+          <circle cx="30" cy="70" r="10" fill="#FF85A2" />
+        </svg>
+      `;
+      
+      // Posición aleatoria
+      const posX = Math.random() * 100;
+      const size = Math.random() * 40 + 20;
+      const duration = Math.random() * 12 + 10;
+      
+      // Asignar estilos
+      flor.style.left = posX + 'vw';
+      flor.style.width = size + 'px';
+      flor.style.height = size + 'px';
+      flor.style.animationDuration = duration + 's';
+      
+      fondo.appendChild(flor);
+      
+      // Eliminar después de la animación
+      setTimeout(() => {
+        flor.remove();
+      }, duration * 1000);
+    }
+    
+    // Crear emoji flotante
+    function crearEmoji() {
+      const emoji = document.createElement('div');
+      emoji.className = 'emoji-flotante';
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      
+      // Posición aleatoria
+      const posX = Math.random() * 100;
+      const size = Math.random() * 20 + 20;
+      const duration = Math.random() * 6 + 5;
+      
+      // Asignar estilos
+      emoji.style.left = posX + 'vw';
+      emoji.style.fontSize = size + 'px';
+      emoji.style.animationDuration = duration + 's';
+      
+      fondo.appendChild(emoji);
+      
+      // Eliminar después de la animación
+      setTimeout(() => {
+        emoji.remove();
+      }, duration * 1000);
+    }
+    
+    // Crear destello
+    function crearDestello() {
+      const destello = document.createElement('div');
+      destello.className = 'destello';
+      
+      // Posición aleatoria
+      const posX = Math.random() * 100;
+      const posY = Math.random() * 100;
+      const size = Math.random() * 4 + 2;
+      const duration = Math.random() * 2 + 1;
+      
+      // Asignar estilos
+      destello.style.left = posX + 'vw';
+      destello.style.top = posY + 'vh';
+      destello.style.width = size + 'px';
+      destello.style.height = size + 'px';
+      destello.style.animationDuration = duration + 's';
+      
+      fondo.appendChild(destello);
+      
+      // Eliminar después de la animación
+      setTimeout(() => {
+        destello.remove();
+      }, duration * 1000);
+    }
+    
+    // Crear elementos iniciales
+    window.onload = function() {
+      // Crear elementos iniciales
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          if (i % 3 === 0) crearCorazon();
+          if (i % 3 === 1) crearFlor();
+          if (i % 3 === 2) crearEmoji();
+          crearDestello();
+        }, i * 100);
+      }
+      
+      // Crear elementos periódicamente
+      setInterval(crearCorazon, 800);
+      setInterval(crearFlor, 1200);
+      setInterval(crearEmoji, 1000);
+      setInterval(crearDestello, 500);
+      
+      // Intentar reproducir música
+      const audio = document.getElementById('musica');
+      audio.volume = 0.5;
+      
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log("Reproducción automática no permitida");
+        });
+      }
+    };
+  </script>
+</body>
+</html>

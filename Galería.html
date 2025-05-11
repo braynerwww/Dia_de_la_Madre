@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galería para el Día de la Madre</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;500;700&display=swap');
+    
+    :root {
+      --primary: #ff65a3;
+      --primary-light: #ffcfe0;
+      --primary-lighter: #fff2f5;
+      --primary-dark: #d84782;
+      --accent: #ffd1dc;
+      --text: #333;
+      --text-light: #666;
+      --white: #fff;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--primary-lighter);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    /* Animaciones */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(3deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+    
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Decoraciones animadas */
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .floating-heart {
+      position: absolute;
+      color: var(--primary);
+      opacity: 0.2;
+      animation: float 10s infinite ease-in-out;
+    }
+    
+    .decoration {
+      position: absolute;
+      z-index: -1;
+      opacity: 0.1;
+      color: var(--primary);
+    }
+    
+    .flower1 {
+      top: 10%;
+      left: 5%;
+      font-size: 5rem;
+      animation: float 15s infinite ease-in-out;
+    }
+    
+    .flower2 {
+      bottom: 15%;
+      right: 5%;
+      font-size: 4rem;
+      animation: float 12s infinite ease-in-out;
+      animation-delay: 2s;
+    }
+    
+    .flower3 {
+      top: 60%;
+      left: 8%;
+      font-size: 3.5rem;
+      animation: float 14s infinite ease-in-out;
+      animation-delay: 1s;
+    }
+    
+    .flower4 {
+      top: 25%;
+      right: 8%;
+      font-size: 3rem;
+      animation: float 16s infinite ease-in-out;
+      animation-delay: 3s;
+    }
+    
+    /* Encabezado */
+    header {
+      background: linear-gradient(135deg, #ff7eb3, #ff65a3);
+      color: white;
+      text-align: center;
+      padding: 3rem 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    
+    .header-bg:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    h1 {
+      margin: 0;
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-out;
+    }
+    
+    .subtitle {
+      font-style: italic;
+      margin-top: 0.8rem;
+      font-size: 1.2rem;
+      animation: fadeIn 1s ease-out;
+      animation-delay: 0.3s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+    
+    /* Contenedor principal */
+    .container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+      animation: fadeIn 1s ease-out;
+      animation-delay: 0.6s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+    
+    /* Estilos de sección */
+    .section {
+      background-color: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 3rem;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+    }
+    
+    .section-header {
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
+      color: var(--white);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8rem;
+    }
+    
+    .section-content {
+      padding: 2rem;
+    }
+    
+    /* Galería mejorada y con tamaño uniforme */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem;
+      padding: 2rem;
+      justify-content: center;
+    }
+    
+    @media (max-width: 768px) {
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .gallery-item {
+      background-color: var(--white);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s ease;
+      position: relative;
+      /* Altura fija para cada item de la galería */
+      height: 360px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .gallery-item:hover {
+      transform: translateY(-8px) rotate(1deg);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .gallery-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(255,101,163,0) 70%, rgba(255,101,163,0.4) 100%);
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .gallery-item:hover::before {
+      opacity: 1;
+    }
+    
+    .image-container {
+      width: 100%;
+      height: 300px; /* Altura fija para todas las imágenes */
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+    
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+    
+    .gallery-content {
+      padding: 1.2rem;
+      position: relative;
+      z-index: 2;
+      background: var(--white);
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+    }
+    
+    .item-number {
+      display: inline-block;
+      background-color: var(--primary);
+      color: var(--white);
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      text-align: center;
+      border-radius: 50%;
+      margin-right: 0.8rem;
+      box-shadow: 0 2px 5px rgba(255, 101, 163, 0.4);
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    
+    .gallery-content span:last-child {
+      font-weight: 500;
+    }
+    
+    /* Poema mejorado */
+    .poem-section {
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .poem-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: var(--white);
+      border-radius: 12px;
+      padding: 2.5rem;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .poem-container::before,
+    .poem-container::after {
+      content: '❀';
+      font-size: 2.5rem;
+      color: var(--primary);
+      opacity: 0.3;
+      position: absolute;
+    }
+    
+    .poem-container::before {
+      top: 1rem;
+      left: 1.5rem;
+    }
+    
+    .poem-container::after {
+      bottom: 1rem;
+      right: 1.5rem;
+    }
+    
+    .poem {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      line-height: 1.8;
+      color: var(--text);
+      padding: 1.5rem;
+      border-left: 4px solid var(--primary);
+      background-color: var(--primary-lighter);
+      border-radius: 0 12px 12px 0;
+      text-align: left;
+      position: relative;
+    }
+    
+    /* Carta mejorada */
+    .letter-section {
+      padding: 0;
+      overflow: hidden;
+    }
+    
+    .letter-header {
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
+      padding: 2rem;
+      text-align: center;
+      color: var(--white);
+    }
+    
+    .letter-header h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2rem;
+      margin: 0;
+    }
+    
+    .letter-heart {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+      animation: heartbeat 1.5s infinite;
+    }
+    
+    .letter-content {
+      padding: 2.5rem;
+      background-color: var(--white);
+      background-image: 
+        radial-gradient(var(--primary-lighter) 15%, transparent 16%),
+        radial-gradient(var(--primary-lighter) 15%, transparent 16%);
+      background-size: 60px 60px;
+      background-position: 0 0, 30px 30px;
+      border-radius: 0 0 12px 12px;
+    }
+    
+    .letter-content p {
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .letter-content p:first-of-type {
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    
+    .letter-content strong {
+      color: var(--primary);
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    
+    .firma {
+      text-align: right;
+      font-style: italic;
+      margin-top: 2rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      color: var(--primary-dark);
+    }
+    
+    /* Sección de audio y video */
+    .media-section {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .audio-section {
+      background-color: var(--white);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+    }
+    
+    .audio-section:hover {
+      transform: translateY(-5px);
+    }
+    
+    .audio-title {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      font-weight: bold;
+    }
+    
+    .audio-container {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background-color: var(--primary-lighter);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    
+    .audio-container:last-child {
+      margin-bottom: 0;
+    }
+    
+    .audio-container audio {
+      width: 100%;
+      border-radius: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Footer mejorado */
+    footer {
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
+      color: var(--white);
+      text-align: center;
+      padding: 2.5rem 0;
+      position: relative;
+      margin-top: 3rem;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background-image: 
+        radial-gradient(circle at 50% 0%, var(--primary) 25%, transparent 26%),
+        radial-gradient(circle at 0% 0%, var(--primary) 25%, transparent 26%),
+        radial-gradient(circle at 100% 0%, var(--primary) 25%, transparent 26%);
+      background-size: 40px 20px;
+      background-repeat: repeat-x;
+    }
+    
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .heart {
+      color: var(--white);
+      font-size: 1.5rem;
+      display: inline-block;
+      animation: heartbeat 1.5s infinite;
+      margin: 0 5px;
+    }
+    
+    .social-links {
+      margin-top: 1.5rem;
+    }
+    
+    .social-links a {
+      display: inline-block;
+      margin: 0 10px;
+      color: var(--white);
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      transform: scale(1.2);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.8rem;
+      }
+      
+      .poem {
+        font-size: 1.3rem;
+      }
+      
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .section-content {
+        padding: 1.5rem;
+      }
+      
+      .gallery-item {
+        height: 340px;
+      }
+      
+      .image-container {
+        height: 280px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2.3rem;
+      }
+      
+      .header {
+        padding: 2rem 0;
+      }
+      
+      .section-header {
+        font-size: 1.5rem;
+      }
+      
+      .poem {
+        font-size: 1.2rem;
+        padding: 1rem;
+      }
+      
+      .gallery-item {
+        height: 320px;
+      }
+      
+      .image-container {
+        height: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Corazones flotantes animados -->
+  <div class="floating-hearts" id="floatingHearts"></div>
+  
+  <!-- Decoraciones florales -->
+  <div class="decoration flower1">❀</div>
+  <div class="decoration flower2">✿</div>
+  <div class="decoration flower3">❀</div>
+  <div class="decoration flower4">✿</div>
+
+  <header>
+    <div class="header-bg"></div>
+    <div class="header-content">
+      <h1>Un homenaje lleno de amor para mamá</h1>
+      <p class="subtitle">Porque eres el tesoro más grande de mi vida</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Sección de galería -->
+    <div class="section">
+      <div class="section-header">
+        Momentos inolvidables
+      </div>
+      <div class="gallery">
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/1.jpg" alt="Foto 1">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">1</span>
+            <span>Gracias por estar</span>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/4.jpg" alt="Foto 2">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">2</span>
+            <span>siempre a mi lado</span>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/3.jpg" alt="Foto 3">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">3</span>
+            <span>con tu apoyo</span>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/2.jpg" alt="Foto 4">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">4</span>
+            <span>incondicional y</span>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/1.jpg" alt="Foto 5">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">5</span>
+            <span>tu amor infinito.</span>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/6.jpg" alt="Foto 6">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">6</span>
+            <span>Eres mi ejemplo</span>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/7.jpg" alt="Foto 7">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">7</span>
+            <span>de fuerza y ternura,</span>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/8.jpg" alt="Foto 8">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">8</span>
+            <span>te amo con todo</span>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/9.webp" alt="Foto 9">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">9</span>
+            <span>mi corazón, mamá.</span>
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/10.webp" alt="Foto 10">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">10</span>
+            <span>¡Eres la mejor del mundo!</span>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <div class="image-container">
+            <img src="fotos/11.jpg" alt="Foto 11">
+          </div>
+          <div class="gallery-content">
+            <span class="item-number">11</span>
+            <span>¡Con amor tus hijos!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sección de poema -->
+    <div class="section poem-section">
+      <div class="section-header">
+        Un poema para ti
+      </div>
+      <div class="section-content">
+        <div class="poem-container">
+          <div class="poem">
+            Mamá, tu amor es el sol que me guía,<br/>
+            tu voz, la melodía que calma mi día.<br/>
+            Tus abrazos son nido, tus manos consuelo,<br/>
+            en ti encuentro siempre el más puro anhelo.<br/><br/>
+            Gracias por ser faro en mi caminar,<br/>
+            por enseñarme a soñar y a amar.<br/>
+            Hoy celebro tu vida con todo mi ser,<br/>
+            ¡madre querida, te vuelvo a querer!
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de carta -->
+    <div class="section letter-section">
+      <div class="letter-header">
+        <div class="letter-heart">❤️</div>
+        <h2>Carta para la mejor mamá del mundo</h2>
+      </div>
+      <div class="letter-content">
+        <p>Querida mamá,</p>
+
+        <p>Hoy no es un día cualquiera. Hoy el mundo celebra a todas las mamás… pero yo celebro especialmente a la mía: a ti.</p>
+
+        <p>No hay palabras suficientes para agradecerte por todo lo que has hecho por mí. Gracias por cada gesto de amor, por cada abrazo que curó mis tristezas, por cada palabra que me empujó a seguir, incluso cuando yo quería rendirme.</p>
+
+        <p>Eres mi guía, mi apoyo incondicional, la fuerza que me levanta cuando caigo. No solo me diste la vida, me has enseñado a vivirla con bondad, con valentía y con amor.</p>
+
+        <p>Tu amor ha sido el refugio más cálido en mis días fríos y la luz más brillante en mis noches oscuras.</p>
+
+        <p>Gracias por sacrificar tanto sin pedir nada a cambio. Gracias por enseñarme que la ternura no es debilidad y que ser fuerte también es llorar sin miedo.</p>
+
+        <p>Hoy, aunque la distancia no me permita abrazarte, quiero que sientas mi amor con cada palabra.</p>
+
+        <p>Este regalo puede ser pequeño, pero está lleno de todo el amor, el agradecimiento y el cariño que tengo por ti.</p>
+
+        <p>Te amo profundamente, con todo mi corazón. Hoy y siempre.</p>
+
+        <p><strong>Feliz día, mamá.</strong></p>
+        <p>Gracias por ser la mejor.<br>Gracias por ser mi mamá.</p>
+
+        <p class="firma">Con todo mi amor,<br>Stiven</p>
+      </div>
+    </div>
+
+    <!-- Sección de audio -->
+    <div class="section media-section">
+      <div class="section-header">
+        Dedicatorias especiales
+      </div>
+      <div class="section-content">
+        <div class="audio-section">
+          <h3 class="audio-title">Audio especial para mamá</h3>
+
+          <div class="audio-container">
+            <span class="item-number">1</span>
+            <audio controls>
+              <source src="fotos/audio/1.mp4" type="audio/mp4" />
+              Tu navegador no soporta el elemento de audio.
+            </audio>
+          </div>
+
+          <div class="audio-container">
+            <span class="item-number">2</span>
+            <audio controls>
+              <source src="fotos/audio/2.mp4" type="audio/mp4" />
+              Tu navegador no soporta el elemento de audio.
+            </audio>
+          </div>
+
+          <div class="audio-container">
+            <span class="item-number">3</span>
+            <audio controls>
+              <source src="fotos/audio/3.mp4" type="audio/mp4" />
+              Tu navegador no soporta el elemento de audio.
+            </audio>
+          </div>
+
+          <div class="audio-container">
+            <span class="item-number">4</span>
+            <audio controls>
+              <source src="fotos/audio/4.mp4" type="audio/mp4" />
+              Tu navegador no soporta el elemento de audio.
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <p>Hecho con <span class="heart">♥</span> para la mejor mamá del mundo</p>
+        <p>Feliz Día de las Madres 2025</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </footer>
+
+  <script>
+    // Script para crear corazones flotantes dinámicamente
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('floatingHearts');
+      const heartSymbols = ['❤️', '💖', '💕', '💓', '💗'];
+      const numberOfHearts = 15;
+      
+      for (let i = 0; i < numberOfHearts; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        
+        // Seleccionar aleatoriamente un símbolo de corazón
+        const randomHeartIndex = Math.floor(Math.random() * heartSymbols.length);
+        heart.innerText = heartSymbols[randomHeartIndex];
+        
+        // Posición aleatoria
+        const xPos = Math.random() * 100;
+        const yPos = Math.random() * 100;
+        
+        // Tamaño aleatorio
+        const size = Math.random() * 1 + 1;
+        
+        // Duración aleatoria de la animación
+        const animationDuration = Math.random() * 8 + 7;
+        
+        // Retraso aleatorio para la animación
+        const animationDelay = Math.random() * 5;
+        
+        // Aplicar estilos
+        heart.style.left = `${xPos}%`;
+        heart.style.top = `${yPos}%`;
+        heart.style.fontSize = `${size}rem`;
+        heart.style.animationDuration = `${animationDuration}s`;
+        heart.style.animationDelay = `${animationDelay}s`;
+        heart.style.opacity = `${Math.random() * 0.3 + 0.1}`;
+        
+        container.appendChild(heart);
+      }
+    });
+  </script>
+</body>
+</html>
